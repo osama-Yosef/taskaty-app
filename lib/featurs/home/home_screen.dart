@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   CircleAvatar(
                     radius: 30.r,
                     backgroundImage: Image.network(
-                      "https://gratisography.com/photo/augmented-reality",
+                      "https://scontent.fcai19-4.fna.fbcdn.net/v/t39.30808-6/508190583_4226729064260966_5633851813526316384_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=2b5eVBXlxQAQ7kNvwH3UtPy&_nc_oc=Adn7HBkE0GMQLRLQuy9uQV5G-IlldHW6VIowHYJAmliUrPrkNzsp6ReoKB6ifWT-JR8&_nc_zt=23&_nc_ht=scontent.fcai19-4.fna&_nc_gid=b6MeqUAp9BXGT8U-AhmIEg&oh=00_AfQ6TjebLKBpwcXtue0mo7StMm6_rmoXWTxx864gBtc-mw&oe=687B43F3",
                     ).image,
                   ),
                 ],

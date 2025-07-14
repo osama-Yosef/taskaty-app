@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:taskati_app/featurs/add_task/add_task.dart';
 
 class BotwonAdd extends StatelessWidget {
   const BotwonAdd({super.key});
@@ -8,6 +9,9 @@ class BotwonAdd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+        onTap:(){
+          Navigator.push(context, (MaterialPageRoute(builder: (context)=>AddTask() )));
+        },
       child: Container(
         padding: EdgeInsets.all(8.sp),
         decoration: BoxDecoration(

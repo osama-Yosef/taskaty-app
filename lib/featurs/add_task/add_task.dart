@@ -2,18 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskati_app/featurs/Taskati_app/wedgit/chose_coloer.dart';
+import 'package:taskati_app/featurs/home/model/task_models.dart';
 
 import '../Taskati_app/wedgit/costum_box.dart';
 
 class AddTask extends StatefulWidget {
-   AddTask({super.key});
+  AddTask({super.key});
+
 
   @override
   State<AddTask> createState() => _AddTaskState();
 }
 
 class _AddTaskState extends State<AddTask> {
-  var validitionKey=GlobalKey<FormState>();
+  var validitionKey = GlobalKey<FormState>();
+  var titelController = TextEditingController();
+  var descController = TextEditingController();
+  TimeOfDay? EndTime;
+  TimeOfDay? startTime;
+   Color? choseTaskColor ;
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +55,7 @@ class _AddTaskState extends State<AddTask> {
                       return "Erro Enter title";
                     }
                   },
+                  controller: titelController,
                 ),
                 SizedBox(height: 10.h),
                 CostumBox(
@@ -58,19 +67,19 @@ class _AddTaskState extends State<AddTask> {
                       return "Erro Enter Description";
                     }
                   },
+                  controller: descController,
                 ),
                 SizedBox(height: 10.h),
                 CostumBox(
                   title: "Data",
                   hintText: "24-11-2025",
                   suffixIcon: Icon(Icons.calendar_month_outlined),
-                  validator: (value) {
-                    if (value?.isEmpty ?? false) {
-                      return "Erro Enter Data";
-                    }
-                  },
-                  onTap: (){
-                    showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime(2050));
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2050),
+                    );
                   },
                 ),
                 SizedBox(height: 15.h),
@@ -79,25 +88,25 @@ class _AddTaskState extends State<AddTask> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CostumBox(
-                              title: "Start Time",
-                              hintText: "2:35 AM",
-                              suffixIcon: Icon(Icons.access_time),
-                              validator: (value) {
-                                if (value?.isEmpty ?? false) {
-                                  return "Erro Enter Start Time";
-                                }
-                              },
-                              onTap: (){
-                                showTimePicker(context: context, initialTime: TimeOfDay.now());
-                              },
-                            ),
-                          ],
-                        ),
-        
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CostumBox(
+                            title: "Start Time",
+                            hintText: "2:35 AM",
+                            suffixIcon: Icon(Icons.access_time),
+                            onTap: () {
+                              showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              ).then((v) {
+                                startTime = v;
+                              });
+                            },
+                            controller: null,
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(width: 10.w),
                     Expanded(
@@ -108,14 +117,15 @@ class _AddTaskState extends State<AddTask> {
                             title: "End Time",
                             hintText: "4:50 AM",
                             suffixIcon: Icon(Icons.access_time),
-                            validator: (value) {
-                              if (value?.isEmpty ?? false) {
-                                return "Erro Enter End Time";
-                              }
+                            onTap: () {
+                              showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              ).then((v) {
+                                EndTime = v;
+                              });
                             },
-                          onTap: (){
-                            showTimePicker(context: context, initialTime: TimeOfDay.now());
-                            }
+
                           ),
                         ],
                       ),
@@ -123,7 +133,11 @@ class _AddTaskState extends State<AddTask> {
                   ],
                 ),
                 SizedBox(height: 10.h),
-                ChoseColoer(),
+                ChoseColoer(choseColor: (s ) {
+                   choseTaskColor=s;
+                },
+
+                ),
               ],
             ),
           ),
@@ -131,8 +145,21 @@ class _AddTaskState extends State<AddTask> {
       ),
 
       bottomNavigationBar: InkWell(
+
         onTap: () {
-          validitionKey.currentState?.validate();
+          if (validitionKey.currentState?.validate() ?? false) {
+            TaskModels.tasks.add(
+              TaskModels(
+                title: titelController.text,
+                startTime: TaskModels.formatTaime(context, startTime ?? TimeOfDay.now()),
+                EndTime: TaskModels.formatTaime(context, EndTime ?? TimeOfDay.now()),
+                desc: descController.text,
+                TaskColor: choseTaskColor??Colors.blue,
+              ),
+            );
+
+            Navigator.pop(context);
+          }
         },
         child: Container(
           padding: EdgeInsets.only(right: 20.sp, left: 15.sp, bottom: 15.sp),

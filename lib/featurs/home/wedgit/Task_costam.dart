@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:taskati_app/featurs/home/model/task_models.dart';
 
 class TaskCostam extends StatelessWidget {
-  const TaskCostam({super.key});
+  final TaskModels taskModels;
+  const TaskCostam({super.key, required this.taskModels,});
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 15.w),
       decoration: BoxDecoration(
-        color: Colors.orange,
+        color: taskModels.TaskColor,
         borderRadius: BorderRadius.circular(15.r),
       ),
 
@@ -21,7 +24,7 @@ class TaskCostam extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Flutter Task-1",
+                     taskModels.title,
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
@@ -33,7 +36,7 @@ class TaskCostam extends StatelessWidget {
                     children: [
                       Icon(Icons.access_time, size: 15, color: Colors.white),
                       Text(
-                        "2:35 AM-3:35 PM",
+                        " ${taskModels.startTime} ${taskModels.EndTime}",
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w600,
@@ -44,7 +47,7 @@ class TaskCostam extends StatelessWidget {
                   ),
                   SizedBox(height: 5.h),
                   Text(
-                    "I will do this Task ",
+                   taskModels.desc,
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
@@ -55,10 +58,9 @@ class TaskCostam extends StatelessWidget {
               ),
             ),
             VerticalDivider(color: Colors.white, thickness: 2.sp),
-            const RotatedBox(
+             RotatedBox(
               quarterTurns: 3,
-              child: Text(
-                "ToDo",
+              child: Text(TaskModels.stutes??"ToDo",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),

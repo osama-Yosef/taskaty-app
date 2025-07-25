@@ -11,6 +11,7 @@ class CostumBox extends StatelessWidget {
     this.suffixIcon,
     this.validator,
     this.onTap,
+    this.controller,
   });
 
   final String title;
@@ -19,6 +20,7 @@ class CostumBox extends StatelessWidget {
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
   final void Function()? onTap;
+  final TextEditingController? controller;
 
 
   @override
@@ -32,6 +34,7 @@ class CostumBox extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         TextFormField(
+          controller:controller ,
           onTap: onTap,
           readOnly: onTap!=null,
           decoration: InputDecoration(

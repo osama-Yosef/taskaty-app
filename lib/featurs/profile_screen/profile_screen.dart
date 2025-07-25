@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
-
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  get picker => null;
-
   @override
   Widget build(BuildContext context) {
+    final ImagePicker picker = ImagePicker();
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -23,71 +21,12 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (builder) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(horizontal: 7.h, vertical: 7.w ),
-                          alignment: Alignment.center,
-                          width: 350.w,
-                          height: 200.h,
-                          color: Colors.transparent,
-                          child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Key picker = ImagePicker() as Key;
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 25.sp,bottom: 25.sp,left: 70.sp,right: 70.sp),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(17.r),
-
-                                  ),
-                                  child: Text(
-                                    "Upload from camera",
-                                    style: TextStyle(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
-                              InkWell(
-                                onTap: ()  async {
-
-                                  XFile? _ = await picker.pickImage(source: ImageSource.gallery);
-                                  
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 25.sp,bottom: 25.sp,left: 70.sp,right: 70.sp),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(17.r),
-                                  ),
-                                  child: Text(
-                                    "Upload from Gallery",
-                                    style: TextStyle(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
+                    _showUploadOptions(context, picker);
                   },
                   child: CircleAvatar(
-                    backgroundImage: Image.network(
-                      "https://scontent.fcai19-4.fna.fbcdn.net/v/t39.30808-6/508190583_4226729064260966_5633851813526316384_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=2b5eVBXlxQAQ7kNvwH3UtPy&_nc_oc=Adn7HBkE0GMQLRLQuy9uQV5G-IlldHW6VIowHYJAmliUrPrkNzsp6ReoKB6ifWT-JR8&_nc_zt=23&_nc_ht=scontent.fcai19-4.fna&_nc_gid=b6MeqUAp9BXGT8U-AhmIEg&oh=00_AfQ6TjebLKBpwcXtue0mo7StMm6_rmoXWTxx864gBtc-mw&oe=687B43F3",
-                    ).image,
+                    backgroundImage: NetworkImage(
+                      "https://scontent.fcai19-11.fna.fbcdn.net/v/t39.30808-6/508190583_4226729064260966_5633851813526316384_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=MUD40mJNl8UQ7kNvwGjYeSF&_nc_oc=AdkUfuzfsptGKM020JXP3s2Qhb2cFLVNtjO5knIi53HGFn6g_yAYQ29J3oZbAkHRRBQ&_nc_zt=23&_nc_ht=scontent.fcai19-11.fna&_nc_gid=byqMupg4k2R7-dbnyT_UdQ&oh=00_AfS_Ursf11qQYVqp5z-lkcavZZ23GdGqe1p_iPomxO3uzQ&oe=68816AF3",
+                    ),
                     radius: 60.r,
                   ),
                 ),
@@ -105,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.all(5),
                     child: InkWell(
                       onTap: () {
-                        showModalBottomSheet;
+                        _showUploadOptions(context, picker);
                       },
                       child: Icon(
                         Icons.add_a_photo,
@@ -120,7 +59,6 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(height: 25.h),
             Divider(color: Colors.black, endIndent: 20.sp, indent: 20.sp),
             SizedBox(height: 15.h),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -142,6 +80,80 @@ class ProfileScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showUploadOptions(BuildContext context, ImagePicker picker) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 7.h, vertical: 7.w),
+          height: 200.h,
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () async {
+                  XFile? image = await picker.pickImage(source: ImageSource.camera);
+                  if (image != null) {
+                    print(" upload from Camera ${image.path}");
+                  }
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 25.sp, horizontal: 70.sp),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF5B5BF6),
+                    borderRadius: BorderRadius.circular(17.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Upload from Camera",
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
+              InkWell(
+                onTap: () async {
+                  XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                  if (image != null) {
+                    print("upload from Gallery ${image.path}");
+                  }
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 25.sp, horizontal: 70.sp),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF5B5BF6),
+                    borderRadius: BorderRadius.circular(17.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Upload from Gallery",
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChoseColoer extends StatefulWidget {
-  ChoseColoer({super.key});
+  final Function(Color  ) choseColor;
+  ChoseColoer({super.key, required this.choseColor});
 
   @override
   State<ChoseColoer> createState() => _ChoseColoerState();
@@ -36,9 +37,10 @@ class _ChoseColoerState extends State<ChoseColoer> {
               backgroundColor: colors[index],
               isActive: index == indexCarnt,
               onTap: () {
-                if(indexCarnt!=index){
+                if (indexCarnt != index) {
                   setState(() {
                     indexCarnt = index;
+                    widget.choseColor(colors[indexCarnt]);
                   });
                 }
               },
@@ -50,6 +52,8 @@ class _ChoseColoerState extends State<ChoseColoer> {
       ],
     );
   }
+
+
 }
 
 class ColorItem extends StatelessWidget {

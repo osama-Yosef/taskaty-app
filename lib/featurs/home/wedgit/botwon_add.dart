@@ -4,14 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskati_app/featurs/add_task/add_task.dart';
 
 class BotwonAdd extends StatelessWidget {
-  const BotwonAdd({super.key});
+  final void Function()? onTap;
+  const BotwonAdd({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap:(){
-          Navigator.push(context, (MaterialPageRoute(builder: (context)=>AddTask() )));
-        },
+        onTap:onTap,
       child: Container(
         padding: EdgeInsets.all(8.sp),
         decoration: BoxDecoration(
